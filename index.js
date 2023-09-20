@@ -7,14 +7,16 @@ app.set('views', './views')
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 
-// //cai đặt mongoose
+//cai đặt mongoose
 // const mongoose = require('mongoose');
-// mongoose.connect('mongodb://127.0.0.1:27017/products-test');
+// mongoose.connect(process.env.MONGO_URL);
 // const Products = mongoose.model('Product', {
 //   title: String,
 //   price: Number,
 //   thumbnail: String
 // });
+const database = require("./config/database.js");
+database.connect();
 
 route(app)
 app.listen(port, () => {
