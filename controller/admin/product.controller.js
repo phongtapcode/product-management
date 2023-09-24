@@ -1,53 +1,43 @@
 const Product = require("../../models/product.model");
-
+const filterStatusHelpers = require("../../helpers/filterStatus.js");
+const searchHelpers = require("../../helpers/search.js");
+const paginationHelpers = require("../../helpers/pagination.js");
 // [GET] /admin/products
 module.exports.index = async (req,res) => {
-    let filterStatus = [
-      {
-        name: "Tất cả",
-        status: "",
-        class: "active"
-      },
-      {
-        name: "Hoạt động",
-        status: "active",
-        class: ""
-      },
-      {
-        name: "Dừng hoạt động",
-        status: "inactive",
-        class: ""
-      }
-    ]
-    if(req.query.status){
-      filterStatus.forEach((item)=>{
-        if(item.status === req.query.status){
-          item.class = "active";
-        }else{
-          item.class = "";
-        }
-      })  
-    }
-
+    // Bộ lọc Active and Inactive
+    const filterStatus =  filterStatusHelpers(req.query);
+    
     let find = {
       deleted: false
     }
     if(req.query.status){
       find.status = req.query.status;
     }
-
-    let keyword = "";
-    if(req.query.keyword){
-      keyword = req.query.keyword;
-      var regex = new RegExp(keyword,"i");
-      find.title = regex;
+    // End bộ lọc
+    //Search
+    const objectSearch = searchHelpers(req.query);
+    if(objectSearch.regex){
+      find.title = objectSearch.regex;
     }
-    const products = await Product.find(find);
+    //End Search
+    // Pagination Phân trang
+    const countProducts = await Product.count(find);
+
+    const objectPagination =  paginationHelpers({
+      currentPage: 1,
+      limitItem: 4
+    },req.query,
+    countProducts
+    );
+
+    // End Pagination
+    const products = await Product.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
     
     res.render("admin/pages/product/index.pug",{
         titlePage: "Trang chu",
         products: products,
         filterStatus: filterStatus,
-        keyword: keyword
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
       })
 }
