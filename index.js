@@ -44,3 +44,6 @@ routeAdmin(app)
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+// khi form được submid thì sẽ nhận được atribute name và value của ô input đó
