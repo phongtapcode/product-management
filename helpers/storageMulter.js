@@ -12,3 +12,6 @@ module.exports = ()=>{
       return storage;
     //   const upload = multer({ storage: storage })
 }
+
+
+// Xứ lí xem đc ảnh online và xem đưcọ ảnh  file , đổi tên file
