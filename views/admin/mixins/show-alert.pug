@@ -1,7 +1,19 @@
 mixin show-alert(time)
-    div(
-      class="alert alert-success"
-      role="alert"
-      show-alert
-      data-time=time
-    ) #{messages.success} <span close-alert>X</span>
+  - if (messages.success)
+    .message.info
+      div(
+        class="alert alert-success"
+        role="alert"
+        show-alert
+        data-time=time
+      ) #{messages.success} <span close-alert>X</span>
+
+mixin error-alert(time)
+  - if (messages.error)
+    .message.info
+      div(
+        class="alert alert-danger"
+        role="alert"
+        show-alert
+        data-time=time
+      ) #{messages.error} <span close-alert>X</span>

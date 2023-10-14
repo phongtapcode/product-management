@@ -16,3 +16,18 @@ module.exports.index = async (req, res) => {
       products: newProducts
     })
   } 
+module.exports.detail = async (req,res) => {
+  try{
+    const find = {
+      deleted: false,
+      slug: req.params.slug
+    }
+    const product = await Product.findOne(find);
+    res.render("client/pages/products/detail.pug",{
+      titlePage: product.title,
+      product: product
+    })
+  }catch(error){
+    res.redirect(`/products`);
+  }
+}
