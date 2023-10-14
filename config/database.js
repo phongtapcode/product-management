@@ -7,6 +7,3 @@ module.exports.connect = async ()=>{
         console.log("Lỗi");
     }
 }
-// module.exports.connect = () => {
-//     console.log(123)
-// }

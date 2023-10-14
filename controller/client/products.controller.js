@@ -20,7 +20,8 @@ module.exports.detail = async (req,res) => {
   try{
     const find = {
       deleted: false,
-      slug: req.params.slug
+      slug: req.params.slug,
+      status: "active"
     }
     const product = await Product.findOne(find);
     res.render("client/pages/products/detail.pug",{
