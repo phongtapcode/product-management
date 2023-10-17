@@ -23,19 +23,25 @@ module.exports.index = async (req,res) => {
       find.title = objectSearch.regex;
     }
     //End Search
+    // Sort
+      let sort ={};   
+      if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+      }else{
+        sort.position = "desc";
+      }
+    // End sort
     // Pagination Phân trang
     const countProducts = await Product.count(find);
-
     const objectPagination =  paginationHelpers({
       currentPage: 1,
       limitItem: 4
     },req.query,
     countProducts
     );
-
     // End Pagination
     const products = await Product.find(find)
-      .sort({position: "desc"})
+      .sort(sort)
       // Sắp xếp giảm dần (asc giảm dần) Thằng nào tạo sau sẽ hiện thị lên trước
       .limit(objectPagination.limitItem)
       // Giới hạn bn 1 trang
@@ -146,7 +152,7 @@ module.exports.edit = async (req,res) => {
   }catch(error){
     res.redirect(`${systemConfig.prefixAdmin}/products`);
   }
-}
+}   
 
 // [PATCH] /admin/products/edit
 

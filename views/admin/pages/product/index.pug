@@ -4,11 +4,18 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/sort.pug
 block main
   //-  hiện thị thông báo
   - if (messages.success)
     +show-alert(5000)
   
+  .card.mb-3
+    .card-header Sắp xếp
+    .card-body
+      .row
+        .col-4
+          +sort()
   .card.mb-3
     .card-header Bộ lọc và Tìm kiếm
       .card-body
@@ -17,7 +24,7 @@ block main
             +filter-status(filterStatus)
           .col-6
             +search(keyword)
-
+            
   .card.mb-3
     .card-header Danh sách
       .card-body
@@ -29,6 +36,8 @@ block main
               href=`${prefixAdmin}/products/create`
               class="btn btn-outline-success"
             ) Thêm mới
+
+
         table(
           class="table table-hover table-sm"
           checkbox-multi="checkbox-multi"
