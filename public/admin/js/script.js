@@ -167,7 +167,7 @@ if(sort){
 
     const sortKey = url.searchParams.get("sortKey");
     const sortValue = url.searchParams.get("sortValue");
-    if(sortKey && sortValue){
+    if(sortKey && sortValue){   
         const stringSort = `${sortKey}-${sortValue}`;
         const optionSelect = sortSelect.querySelector(`option[value=${stringSort}]`);
         optionSelect.selected = true;
