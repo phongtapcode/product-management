@@ -9,7 +9,6 @@ const systemConfig = require("../../config/system.js");
 module.exports.index = async (req,res) => {
     // Bộ lọc Active and Inactive
     const filterStatus =  filterStatusHelpers(req.query);
-    
     let find = {
       deleted: false
     }
@@ -48,7 +47,7 @@ module.exports.index = async (req,res) => {
       .skip(objectPagination.skip);
     
     res.render("admin/pages/product/index.pug",{
-        titlePage: "Trang chu",
+        pageTitle: "Trang chủ",
         products: products,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
@@ -115,7 +114,7 @@ module.exports.deleteItem = async (req,res) => {
 // [GET] /admin/products/create
 module.exports.create = async (req,res) => {
   res.render("admin/pages/product/create.pug",{
-    titlePage: "Tạo mới sản phẩm"
+    pageTitle: "Tạo mới sản phẩm"
   })
 }
 // [POST] /admin/products/create

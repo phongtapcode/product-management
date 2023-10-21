@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 var flash = require('express-flash')
+var path = require('path');
 
 require("dotenv").config()
 const app = express()
@@ -22,6 +23,11 @@ app.use(cookieParser('Bất kì'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 // End Flash
+
+// Tini MCE   Tạo bản word trên web
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// end tini mce
+
 
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
