@@ -59,7 +59,6 @@ module.exports.index = async (req,res) => {
 module.exports.changeStatus = async (req,res) => {
   const status = req.params.status;
   const id = req.params.id;
-
   await Product.updateOne({_id: id},{status: status})
 // cập nhật 1 sẩn phầm Đối số đầu tiên phải là id , Đối số thứ hai là các key muốn cập nhật
 req.flash('success', 'Cập nhật thành công');
@@ -153,15 +152,14 @@ module.exports.edit = async (req,res) => {
   }
 }   
 
-// [PATCH] /admin/products/edit
 
+// [PATCH] /admin/products/edit
 module.exports.editPatch = async (req,res) => {
 
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
-  
 
   try{
     await Product.updateOne({_id: req.params.id},req.body)
