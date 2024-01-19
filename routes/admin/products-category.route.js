@@ -14,4 +14,12 @@ routes.post('/create',
             validate.createPost,
             controller.createPost
 );
+routes.get('/edit/:id',controller.edit);
+routes.patch('/edit/:id',
+            upload.single("thumbnail"),
+            uploadCloud.upload,
+            validate.createPost,
+            controller.editPatch
+);
+routes.get('/detail/:id',controller.detail);
 module.exports = routes;

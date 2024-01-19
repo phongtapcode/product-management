@@ -1,4 +1,6 @@
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
+const createTreeHelper = require("../../helpers/createTree.js");
 const filterStatusHelpers = require("../../helpers/filterStatus.js");
 const searchHelpers = require("../../helpers/search.js");
 const paginationHelpers = require("../../helpers/pagination.js");
@@ -112,8 +114,15 @@ module.exports.deleteItem = async (req,res) => {
 }
 // [GET] /admin/products/create
 module.exports.create = async (req,res) => {
+  let find = {
+    deleted: false
+}
+const category = await ProductCategory.find(find);
+const newCategory = createTreeHelper.tree(category);  
+
   res.render("admin/pages/product/create.pug",{
-    pageTitle: "Tạo mới sản phẩm"
+    pageTitle: "Tạo mới sản phẩm",
+    category: newCategory
   })
 }
 // [POST] /admin/products/create
@@ -143,9 +152,14 @@ module.exports.edit = async (req,res) => {
       _id: req.params.id
     }
     const product = await Product.findOne(find);
+    const category = await ProductCategory.find({
+      deleted: false
+    });
+const newCategory = createTreeHelper.tree(category);  
     res.render("admin/pages/product/edit.pug",{
       titlePage: "Tạo mới sản phẩm",
-      product: product
+      product: product,
+      category: newCategory
     })
   }catch(error){
     res.redirect(`${systemConfig.prefixAdmin}/products`);
@@ -155,12 +169,10 @@ module.exports.edit = async (req,res) => {
 
 // [PATCH] /admin/products/edit
 module.exports.editPatch = async (req,res) => {
-
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
-
   try{
     await Product.updateOne({_id: req.params.id},req.body)
     req.flash("success","Cập nhật thành công!!");
@@ -185,3 +197,4 @@ module.exports.detail = async (req,res) => {
     res.redirect(`${systemConfig.prefixAdmin}/products`);
   }
 }
+

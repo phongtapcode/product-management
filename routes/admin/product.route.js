@@ -7,7 +7,7 @@ const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
 
 const upload = multer();
 const routes = express.Router();
- 
+  
 routes.get('/',controller.index);
 routes.patch('/change-status/:status/:id',controller.changeStatus);
 // :status  routes động Khi link có status thì bên controller sẽ nhận được Lấy ra bằng cách req.params.status

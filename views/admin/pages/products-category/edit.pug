@@ -5,7 +5,7 @@ block main
   +error-alert(5000)
   h1(class="mb-4") Thêm mới sản phẩm
   form(
-    action=`${prefixAdmin}/products-category/create?_method=POST`
+    action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
     method="POST"
     enctype="multipart/form-data" 
   )
@@ -16,6 +16,7 @@ block main
         class="form-control"
         id="title"
         name="title"
+        value=data.title
         required
       )
     div(class="form-group")
@@ -27,7 +28,8 @@ block main
       )
         option(value="") --Chọn danh mục cha--
         if(records)
-          +select-tree(records)
+          +select-tree(records,1,data.parent_id)
+
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
@@ -35,7 +37,7 @@ block main
         id="desc"
         name="description"
         rows="5"
-      )
+      ) #{data.description}
 
     div(
       class="form-group"
@@ -51,7 +53,7 @@ block main
         upload-image-input
       )
       img(
-        src=""
+        src=data.thumbnail
         upload-image-preview
         class="image-preview"
       )
@@ -64,6 +66,7 @@ block main
         name="position"
         placeholder="Tự động tăng"
         min="1"
+        value=data.position
       )
     div(class="form-group form-check form-check-inline")
       input(
@@ -72,7 +75,7 @@ block main
         id="statusActive"
         name="status"
         value="active"
-        checked
+        checked=(data.status == "active"?true:false)
       )
       label(for="statusActive" class="form-check-label") Hoạt động
     div(class="form-group form-check form-check-inline")
@@ -82,12 +85,13 @@ block main
         id="statusInActive"
         name="status"
         value="inactive"
+        checked=(data.status == "inactive"?true:false)
       )
       label(for="statusInActive" class="form-check-label") Dừng hoạt động
     div(class="form-group")
       button(
         type="submit"
         class="btn btn-primary"
-      ) Tạo mới
+      ) Cập nhật
 
   script(src="/admin/js/product.js")
