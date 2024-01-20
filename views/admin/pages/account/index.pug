@@ -1,4 +1,74 @@
 extends ../../layouts/default.pug
 
 block main
-    h1 Phong
+    h1(class="mb-4") Danh sách tài khoản
+
+    .card.mb-3
+        .card-header Danh sách 
+        .card-body
+            .row
+                .col-8
+                .col-4.text-right
+                    a(
+                        href=`${prefixAdmin}/accounts/create`
+                        class="btn btn-outline-success"
+                    ) + Thêm mới
+        table(
+          class="table table-hover table-sm"
+          checkbox-multi="checkbox-multi"
+        )
+          thead
+            tr  
+              th STT
+              th Avatar
+              th Họ tên
+              th Phân quyền
+              th Email  
+              th Trạng thái
+              th Hành động
+
+          tbody
+            each item,index in records
+              tr 
+                td #{index+1}
+                td
+                  img(
+                    src= item.avatar
+                    alt="Sản phẩm 1"
+                    width="60px"
+                    height="auto"
+                  )
+                td #{item.fullName}
+                td #{item.role}
+                td #{item.email}
+                td
+                  if(item.status == "active")
+                    a(
+                      href="javascripts:;"
+                      data-status="active"
+                      data-id=item.id 
+                      button-change-status
+                      class="badge badge-success"
+                    ) Hoạt động 
+                  else
+                    a(
+                      href="javascripts:;"
+                      data-status="inactive"
+                      data-id=item.id 
+                      button-change-status
+                      class="badge badge-danger"                   
+                    ) Dừng hoạt động
+                td
+                  a(
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                    class="btn btn-secondary btn-sm"
+                  ) Chi tiết
+                  a(
+                    href=`${prefixAdmin}/products/edit/${item.id}`
+                    class="btn btn-warning btn-sm"
+                  ) Sửa
+                  button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete
+                    data-id = item.id
+                  ) Xóa
