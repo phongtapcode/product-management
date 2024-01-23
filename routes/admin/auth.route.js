@@ -7,4 +7,5 @@ routes.post('/login',
             validates.loginPost,
             controller.loginPost
 );
+routes.get('/logout',controller.logout);
 module.exports = routes;
