@@ -13,4 +13,11 @@ routes.post('/create',
             validate.createPost,
             controller.createPost
 );
+routes.get('/edit/:id',controller.edit);
+routes.patch('/edit/:id',
+            upload.single("avatar"),
+            uploadCloud.upload,
+            validate.editPatch,
+            controller.editPatch
+);
 module.exports = routes;
